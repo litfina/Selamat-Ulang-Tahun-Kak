@@ -4,9 +4,10 @@ import { GIFT_PROMPT, SISTER_NAME } from '@/data/config';
 
 interface GiftRevealProps {
   onComplete: () => void;
+  onInteract?: () => void;
 }
 
-export const GiftReveal = ({ onComplete }: GiftRevealProps) => {
+export const GiftReveal = ({ onComplete, onInteract }: GiftRevealProps) => {
   const [clicked, setClicked] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,23 +38,8 @@ export const GiftReveal = ({ onComplete }: GiftRevealProps) => {
     if (clicked) return;
     setClicked(true);
 
-    // Play happy sound
-    try {
-      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      const notes = [523, 659, 784, 880, 1047];
-      notes.forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.frequency.value = freq;
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.18);
-        gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + i * 0.18 + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.18 + 0.8);
-        osc.start(ctx.currentTime + i * 0.18);
-        osc.stop(ctx.currentTime + i * 0.18 + 0.8);
-      });
-    } catch { /* ignore */ }
+    // Start music playback during this user gesture (browsers require user interaction to autoplay)
+    if (onInteract) onInteract();
 
     // Stop bob animation
     if (cakeRef.current) gsap.killTweensOf(cakeRef.current);
@@ -93,7 +79,7 @@ export const GiftReveal = ({ onComplete }: GiftRevealProps) => {
       { opacity: 0, y: -80, duration: 1.0, stagger: 0.04, ease: 'power1.in' },
       '+=0.3'
     );
-  }, [clicked, onComplete]);
+  }, [clicked, onComplete, onInteract]);
 
   const sparkleItems = Array.from({ length: 20 }, (_, i) => ({
     emoji: ['🎉', '✨', '🎊', '💖', '🌟', '🎈', '💕', '🎀'][i % 8],

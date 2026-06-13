@@ -289,11 +289,11 @@ export const Countdown = ({ onComplete }: CountdownProps) => {
         <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-[#5c0620] mb-2 text-glow">
           {isComplete ? COUNTDOWN_COMPLETE_MESSAGE : COUNTDOWN_MESSAGE}
         </h1>
-        <p className="text-[#800f2f] text-lg md:text-xl mb-12 font-sans font-medium">
-          {isComplete
-            ? `Selamat Ulang Tahun, ${SISTER_NAME}! 🎉`
-            : `${SISTER_NAME} akan berulang tahun pada ${new Date(BIRTHDAY_DATE).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`}
-        </p>
+        {isComplete && (
+          <p className="text-[#800f2f] text-2xl md:text-4xl mb-12 font-gothic font-medium">
+            Selamat Ulang Tahun, {SISTER_NAME}! 🎉
+          </p>
+        )}
 
         {!isComplete && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-3xl mx-auto">

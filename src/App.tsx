@@ -40,10 +40,7 @@ function App() {
 
   const handleGiftComplete = useCallback(() => {
     setPhase('main');
-    setTimeout(() => {
-      audioApi.play();
-    }, 600);
-  }, [audioApi]);
+  }, []);
 
   // Loading screen — pink theme
   if (phase === 'loading') {
@@ -74,7 +71,7 @@ function App() {
 
       {/* Phase: Gift Reveal */}
       {phase === 'gift' && (
-        <GiftReveal onComplete={handleGiftComplete} />
+        <GiftReveal onComplete={handleGiftComplete} onInteract={audioApi.play} />
       )}
 
       {/* Phase: Main Birthday Site */}

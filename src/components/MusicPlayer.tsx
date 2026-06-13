@@ -12,22 +12,15 @@ interface MusicPlayerProps {
   currentTrackIndex: number;
   currentTrack: { title: string; artist: string; url: string };
   playlist: Array<{ title: string; artist: string; url: string }>;
-  nextTrack: () => void;
-  prevTrack: () => void;
-  selectTrack: (index: number) => void;
 }
 
 export const MusicPlayer = ({
   toggle,
   isPlaying,
-  isLoaded,
   volume,
   setVolume,
   currentTrack,
   playlist,
-  nextTrack,
-  prevTrack,
-  selectTrack,
 }: MusicPlayerProps) => {
   const [showList, setShowList] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -58,7 +51,6 @@ export const MusicPlayer = ({
             {playlist.map((track, idx) => (
               <button
                 key={idx}
-                onClick={() => selectTrack(idx)}
                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-between ${
                   playlist[idx].title === currentTrack.title
                     ? 'bg-[#ff4d6d]/10 text-[#ff4d6d] font-bold'
@@ -115,7 +107,6 @@ export const MusicPlayer = ({
 
           {/* Previous Button */}
           <button
-            onClick={prevTrack}
             className="p-2 rounded-lg text-[#800f2f] hover:bg-[#ff4d6d]/5 transition-colors"
             title="Sebelumnya"
           >
@@ -125,8 +116,7 @@ export const MusicPlayer = ({
           {/* Play/Pause Button */}
           <button
             onClick={toggle}
-            disabled={!isLoaded}
-            className="w-10 h-10 rounded-full bg-[#ff4d6d] text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#ff4d6d]/20 disabled:opacity-50"
+            className="w-10 h-10 rounded-full bg-[#ff4d6d] text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#ff4d6d]/20"
             title={isPlaying ? "Jeda" : "Putar"}
           >
             {isPlaying ? (
@@ -138,7 +128,6 @@ export const MusicPlayer = ({
 
           {/* Next Button */}
           <button
-            onClick={nextTrack}
             className="p-2 rounded-lg text-[#800f2f] hover:bg-[#ff4d6d]/5 transition-colors"
             title="Berikutnya"
           >
