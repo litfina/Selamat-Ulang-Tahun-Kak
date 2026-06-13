@@ -21,7 +21,7 @@ export const playlist: Track[] = [
 
 export const useAudio = () => {
   const soundRef = useRef<Howl | null>(null);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [currentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [volume, setVolumeState] = useState(0.3);
